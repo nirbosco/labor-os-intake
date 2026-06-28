@@ -18,9 +18,9 @@ body{margin:0;font-family:'Heebo',sans-serif;background-color:#6FC6BA;background
 .mz-f{margin-bottom:15px}
 .mz-f label{display:block;font-size:14.5px;font-weight:500;margin-bottom:5px;color:#15264f}
 .mz-f .hint{font-weight:400;color:#6a7a8a;font-size:12.5px}
-.mz-f input,.mz-f textarea{width:100%;font-family:inherit;font-size:14.5px;background:#fff;border:1px solid #b9d3cb;border-radius:8px;padding:10px 12px;color:#15264f}
+.mz-f input,.mz-f textarea,.mz-f select{width:100%;font-family:inherit;font-size:14.5px;background:#fff;border:1px solid #b9d3cb;border-radius:8px;padding:10px 12px;color:#15264f}
 .mz-f textarea{min-height:74px;resize:vertical;line-height:1.55}
-.mz-f input:focus,.mz-f textarea:focus{outline:none;border-color:#2B49A6;box-shadow:0 0 0 3px rgba(43,73,166,.15)}
+.mz-f input:focus,.mz-f textarea:focus,.mz-f select:focus{outline:none;border-color:#2B49A6;box-shadow:0 0 0 3px rgba(43,73,166,.15)}
 .req{color:#c0392b}
 .mz-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .sup-row{display:flex;gap:8px;margin-top:8px}
@@ -61,7 +61,10 @@ body{margin:0;font-family:'Heebo',sans-serif;background-color:#6FC6BA;background
     <div class="mz-f"><label>תא פיקוח <span class="req">*</span></label><input id="f_unit"></div>
   </div>
   <div class="mz-grid">
-    <div class="mz-f"><label>תחום <span class="req">*</span> <span class="hint">הענף/התחום שהמקצוע שייך אליו</span></label><input id="f_domain"></div>
+    <div class="mz-f"><label>תחום <span class="req">*</span> <span class="hint">הענף/התחום שהמקצוע שייך אליו</span></label>
+      <input id="f_domain">
+      <select id="f_domainSelect" style="display:none"><option value="">בחר/י תחום…</option><option>מתמטיקה</option><option>שפה</option><option>מדעי סביבתי</option><option>בריאותי גופני</option><option>הומניסטיקה</option></select>
+    </div>
     <div class="mz-f"><label>מספר מגמה <span class="hint">אם ידוע</span></label><input id="f_trackNumber"></div>
   </div>
   <div class="mz-f"><label>שם המקצוע / המגמה <span class="req">*</span> <span class="hint">(פותח תיקייה בדרייב)</span></label><input id="f_profession"></div>
@@ -110,8 +113,9 @@ body{margin:0;font-family:'Heebo',sans-serif;background-color:#6FC6BA;background
 <script>
 (function(){
   var ENDPOINT="https://lmbutlwxrlmyllbngfro.supabase.co/functions/v1/machine-intake";
-  var fields=['domain','trackNumber','unit','profession','coreField','coreProfession','about','tenYears','purpose','promise','knowledge','modules','international','dreamTeam','careers','constraints'];
-  var required=['domain','unit','profession','coreField','about','tenYears','purpose','promise','knowledge','modules','dreamTeam'];
+  var fields=['trackNumber','unit','profession','coreField','coreProfession','about','tenYears','purpose','promise','knowledge','modules','international','dreamTeam','careers','constraints'];
+  var required=['unit','profession','coreField','about','tenYears','purpose','promise','knowledge','modules','dreamTeam'];
+  var PED='פיקוח פדגוגי';
 
   document.getElementById('addSup').addEventListener('click',function(){
     var row=document.createElement('div');row.className='sup-row';
@@ -122,6 +126,10 @@ body{margin:0;font-family:'Heebo',sans-serif;background-color:#6FC6BA;background
     document.getElementById('supList').appendChild(row);
   });
 
+  var domText=document.getElementById('f_domain'),domSel=document.getElementById('f_domainSelect');
+  function syncDomain(){var ped=((document.querySelector('input[name=supType]:checked')||{}).value===PED);domSel.style.display=ped?'':'none';domText.style.display=ped?'none':'';}
+  Array.prototype.forEach.call(document.querySelectorAll('input[name=supType]'),function(r){r.addEventListener('change',syncDomain);});
+
   var btn=document.getElementById('mzSubmit');
   btn.addEventListener('click',function(){
     var missing=false;
@@ -131,6 +139,9 @@ body{margin:0;font-family:'Heebo',sans-serif;background-color:#6FC6BA;background
     var supType=(document.querySelector('input[name=supType]:checked')||{}).value;
     var supBox=document.getElementById('supTypeBox');
     if(!supType){supBox.style.borderColor='#c0392b';missing=true;}else{supBox.style.borderColor='#b9d3cb';}
+    var domEl=(supType===PED)?domSel:domText;
+    var domainVal=(domEl.value||'').trim();
+    if(!domainVal){domEl.style.borderColor='#c0392b';missing=true;}else{domEl.style.borderColor='#b9d3cb';}
     required.forEach(function(k){var el=document.getElementById('f_'+k);if(!(el.value||'').trim()){el.style.borderColor='#c0392b';missing=true;}else{el.style.borderColor='#b9d3cb';}});
     if(missing){alert('יש למלא את כל שדות החובה (המסומנים *)');return;}
     var profession=document.getElementById('f_profession').value.trim();
@@ -138,6 +149,7 @@ body{margin:0;font-family:'Heebo',sans-serif;background-color:#6FC6BA;background
     var fd=new FormData();
     fd.append('supervisor',names.join(', '));
     fd.append('supervisionType',supType);
+    fd.append('domain',domainVal);
     fields.forEach(function(k){fd.append(k,document.getElementById('f_'+k).value||'');});
     var fi=document.getElementById('f_files');
     for(var i=0;i<fi.files.length;i++){fd.append('files',fi.files[i]);}
