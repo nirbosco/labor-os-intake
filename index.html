@@ -23,6 +23,12 @@ body{margin:0;font-family:'Heebo',sans-serif;background-color:#6FC6BA;background
 .mz-f input:focus,.mz-f textarea:focus{outline:none;border-color:#2B49A6;box-shadow:0 0 0 3px rgba(43,73,166,.15)}
 .req{color:#c0392b}
 .mz-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.sup-row{display:flex;gap:8px;margin-top:8px}
+.sup-rm{border:1px solid #b9d3cb;background:#fff;border-radius:8px;width:42px;cursor:pointer;font-size:18px;color:#c0392b;flex:none}
+.mz-add{margin-top:8px;background:none;border:1px dashed #2B49A6;color:#2B49A6;border-radius:8px;padding:7px 13px;font-family:inherit;font-size:13.5px;cursor:pointer}
+.mz-radio{display:flex;gap:18px;background:#fff;border:1px solid #b9d3cb;border-radius:8px;padding:11px 12px}
+.mz-radio label{font-weight:400;margin:0;display:flex;gap:6px;align-items:center}
+.mz-radio input{width:auto}
 .mz-drop{background:#fff;border:2px dashed #8fb1f0;border-radius:10px;padding:16px;text-align:center;color:#3a4a6b;font-size:13.5px}
 .mz-drop input{font-size:13px;margin-top:8px}
 .mz-btn{width:100%;margin-top:24px;background:#2B49A6;color:#fff;border:none;border-radius:10px;padding:15px;font-family:inherit;font-size:18px;font-weight:700;cursor:pointer}
@@ -40,14 +46,21 @@ body{margin:0;font-family:'Heebo',sans-serif;background-color:#6FC6BA;background
   </div>
   <p class="mz-quote">"המכונה היא בסופו של דבר רק כלי... תפקידו של המוח האנושי נותר כשהיה: לגלות נתונים חדשים לניתוח, ולהגות מושגים חדשים שייבחנו." — אסימוב, "אנוכי הרובוט", 1950</p>
 
-  <div class="mz-grid">
-    <div class="mz-f"><label>שם מלא <span class="req">*</span></label><input id="f_fullName"></div>
-    <div class="mz-f"><label>מפקח מקצועי <span class="req">*</span></label><input id="f_supervisor"></div>
+  <div class="mz-f">
+    <label>שם המפקח <span class="req">*</span> <span class="hint">המפקח האחראי. אפשר להוסיף מפקחים נוספים בלחיצה על +</span></label>
+    <div id="supList"><input class="sup-name" placeholder="שם מלא"></div>
+    <button type="button" class="mz-add" id="addSup">+ הוסף מפקח</button>
   </div>
   <div class="mz-grid">
+    <div class="mz-f"><label>סוג הפיקוח <span class="req">*</span></label>
+      <div class="mz-radio" id="supTypeBox">
+        <label><input type="radio" name="supType" value="פיקוח מקצועי"> פיקוח מקצועי</label>
+        <label><input type="radio" name="supType" value="פיקוח פדגוגי"> פיקוח פדגוגי</label>
+      </div>
+    </div>
     <div class="mz-f"><label>תא פיקוח <span class="req">*</span></label><input id="f_unit"></div>
-    <div class="mz-f"><label>שם המקצוע / המגמה <span class="req">*</span> <span class="hint">(פותח תיקייה)</span></label><input id="f_profession"></div>
   </div>
+  <div class="mz-f"><label>שם המקצוע / המגמה <span class="req">*</span> <span class="hint">(פותח תיקייה בדרייב)</span></label><input id="f_profession"></div>
 
   <div class="mz-sec">
     <div class="mz-sec-h"><svg viewBox="0 0 24 24" width="22" height="22" fill="#2B49A6" aria-hidden="true"><circle cx="12" cy="6" r="4"/><rect x="6" y="11" width="12" height="9" rx="3"/></svg> גוף המכונה — הליבה</div>
@@ -93,17 +106,35 @@ body{margin:0;font-family:'Heebo',sans-serif;background-color:#6FC6BA;background
 <script>
 (function(){
   var ENDPOINT="https://lmbutlwxrlmyllbngfro.supabase.co/functions/v1/machine-intake";
-  var required=['fullName','supervisor','unit','profession','coreField','about','tenYears','purpose','promise','knowledge','modules','dreamTeam'];
-  var allKeys=['fullName','supervisor','unit','profession','coreField','coreProfession','about','tenYears','purpose','promise','knowledge','modules','international','dreamTeam','careers','constraints'];
+  var fields=['unit','profession','coreField','coreProfession','about','tenYears','purpose','promise','knowledge','modules','international','dreamTeam','careers','constraints'];
+  var required=['unit','profession','coreField','about','tenYears','purpose','promise','knowledge','modules','dreamTeam'];
+
+  document.getElementById('addSup').addEventListener('click',function(){
+    var row=document.createElement('div');row.className='sup-row';
+    var inp=document.createElement('input');inp.className='sup-name';inp.placeholder='שם מפקח נוסף';inp.style.flex='1';
+    var rm=document.createElement('button');rm.type='button';rm.className='sup-rm';rm.textContent='×';rm.setAttribute('aria-label','הסר');
+    rm.addEventListener('click',function(){row.remove();});
+    row.appendChild(inp);row.appendChild(rm);
+    document.getElementById('supList').appendChild(row);
+  });
+
   var btn=document.getElementById('mzSubmit');
   btn.addEventListener('click',function(){
     var missing=false;
+    var names=Array.prototype.map.call(document.querySelectorAll('.sup-name'),function(e){return (e.value||'').trim();}).filter(Boolean);
+    var firstName=document.querySelector('.sup-name');
+    if(!names.length){firstName.style.borderColor='#c0392b';missing=true;}else{firstName.style.borderColor='#b9d3cb';}
+    var supType=(document.querySelector('input[name=supType]:checked')||{}).value;
+    var supBox=document.getElementById('supTypeBox');
+    if(!supType){supBox.style.borderColor='#c0392b';missing=true;}else{supBox.style.borderColor='#b9d3cb';}
     required.forEach(function(k){var el=document.getElementById('f_'+k);if(!(el.value||'').trim()){el.style.borderColor='#c0392b';missing=true;}else{el.style.borderColor='#b9d3cb';}});
     if(missing){alert('יש למלא את כל שדות החובה (המסומנים *)');return;}
     var profession=document.getElementById('f_profession').value.trim();
     btn.disabled=true;btn.textContent='שולח… (העלאת קבצים עשויה לקחת רגע)';
     var fd=new FormData();
-    allKeys.forEach(function(k){fd.append(k,document.getElementById('f_'+k).value||'');});
+    fd.append('supervisor',names.join(', '));
+    fd.append('supervisionType',supType);
+    fields.forEach(function(k){fd.append(k,document.getElementById('f_'+k).value||'');});
     var fi=document.getElementById('f_files');
     for(var i=0;i<fi.files.length;i++){fd.append('files',fi.files[i]);}
     fetch(ENDPOINT,{method:'POST',body:fd}).then(function(r){return r.json();}).then(function(res){
