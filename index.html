@@ -60,6 +60,10 @@ body{margin:0;font-family:'Heebo',sans-serif;background-color:#6FC6BA;background
     </div>
     <div class="mz-f"><label>תא פיקוח <span class="req">*</span></label><input id="f_unit"></div>
   </div>
+  <div class="mz-grid">
+    <div class="mz-f"><label>תחום <span class="req">*</span> <span class="hint">הענף/התחום שהמקצוע שייך אליו</span></label><input id="f_domain"></div>
+    <div class="mz-f"><label>מספר מגמה <span class="hint">אם ידוע</span></label><input id="f_trackNumber"></div>
+  </div>
   <div class="mz-f"><label>שם המקצוע / המגמה <span class="req">*</span> <span class="hint">(פותח תיקייה בדרייב)</span></label><input id="f_profession"></div>
 
   <div class="mz-sec">
@@ -106,8 +110,8 @@ body{margin:0;font-family:'Heebo',sans-serif;background-color:#6FC6BA;background
 <script>
 (function(){
   var ENDPOINT="https://lmbutlwxrlmyllbngfro.supabase.co/functions/v1/machine-intake";
-  var fields=['unit','profession','coreField','coreProfession','about','tenYears','purpose','promise','knowledge','modules','international','dreamTeam','careers','constraints'];
-  var required=['unit','profession','coreField','about','tenYears','purpose','promise','knowledge','modules','dreamTeam'];
+  var fields=['domain','trackNumber','unit','profession','coreField','coreProfession','about','tenYears','purpose','promise','knowledge','modules','international','dreamTeam','careers','constraints'];
+  var required=['domain','unit','profession','coreField','about','tenYears','purpose','promise','knowledge','modules','dreamTeam'];
 
   document.getElementById('addSup').addEventListener('click',function(){
     var row=document.createElement('div');row.className='sup-row';
