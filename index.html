@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>איפיון המכונה — LABOR-OS</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700&display=swap');
+*{box-sizing:border-box}
+body{margin:0;font-family:'Heebo',sans-serif;background-color:#6FC6BA;background-image:linear-gradient(rgba(255,255,255,.35) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.35) 1px,transparent 1px);background-size:34px 34px;color:#15264f;padding:24px}
+.mz-card{max-width:760px;margin:0 auto;background:#ECF6F3;border:3px solid #2B49A6;border-radius:16px;padding:26px}
+.mz-h1{font-size:32px;font-weight:700;margin:0;color:#15264f}
+.mz-sub{font-size:16px;font-weight:500;color:#2B49A6;margin:2px 0 14px}
+.mz-quote{font-size:13.5px;line-height:1.6;color:#3a4a6b;border-right:3px solid #2B49A6;padding-right:12px;margin:0 0 18px}
+.mz-sec{margin-top:24px;border-top:1px dashed #8fb8af;padding-top:18px}
+.mz-sec-h{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:700;color:#2B49A6;margin:0 0 4px}
+.mz-sec-d{font-size:13px;color:#4a6b62;margin:0 0 14px}
+.mz-f{margin-bottom:15px}
+.mz-f label{display:block;font-size:14.5px;font-weight:500;margin-bottom:5px;color:#15264f}
+.mz-f .hint{font-weight:400;color:#6a7a8a;font-size:12.5px}
+.mz-f input,.mz-f textarea{width:100%;font-family:inherit;font-size:14.5px;background:#fff;border:1px solid #b9d3cb;border-radius:8px;padding:10px 12px;color:#15264f}
+.mz-f textarea{min-height:74px;resize:vertical;line-height:1.55}
+.mz-f input:focus,.mz-f textarea:focus{outline:none;border-color:#2B49A6;box-shadow:0 0 0 3px rgba(43,73,166,.15)}
+.req{color:#c0392b}
+.mz-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.mz-drop{background:#fff;border:2px dashed #8fb1f0;border-radius:10px;padding:16px;text-align:center;color:#3a4a6b;font-size:13.5px}
+.mz-drop input{font-size:13px;margin-top:8px}
+.mz-btn{width:100%;margin-top:24px;background:#2B49A6;color:#fff;border:none;border-radius:10px;padding:15px;font-family:inherit;font-size:18px;font-weight:700;cursor:pointer}
+.mz-btn:hover{background:#22387f}.mz-btn:disabled{opacity:.6;cursor:default}
+.mz-ok{text-align:center;padding:50px 20px}.mz-ok svg{width:72px;height:72px}
+.mz-ok h2{color:#2B49A6;font-size:26px;margin:16px 0 6px}.mz-ok p{color:#3a4a6b;font-size:16px;margin:0}
+@media(max-width:560px){.mz-grid{grid-template-columns:1fr}body{padding:12px}}
+</style>
+</head>
+<body>
+<form class="mz-card" id="mzCard">
+  <div style="display:flex;align-items:flex-start;gap:14px">
+    <svg viewBox="0 0 60 90" style="width:50px;flex:none" aria-hidden="true"><circle cx="30" cy="14" r="11" fill="#2B49A6"/><rect x="17" y="28" width="26" height="30" rx="7" fill="#2B49A6"/><rect x="4" y="31" width="11" height="22" rx="5" fill="#9fc6be"/><rect x="45" y="31" width="11" height="22" rx="5" fill="#9fc6be"/><rect x="20" y="60" width="9" height="24" rx="4" fill="#2B49A6"/><rect x="31" y="60" width="9" height="24" rx="4" fill="#2B49A6"/><circle cx="25" cy="13" r="2.4" fill="#fff"/><circle cx="35" cy="13" r="2.4" fill="#fff"/></svg>
+    <div><h1 class="mz-h1">איפיון המכונה</h1><div class="mz-sub">בניית הצוות שלי, העוזר האישי שלכם</div></div>
+  </div>
+  <p class="mz-quote">"המכונה היא בסופו של דבר רק כלי... תפקידו של המוח האנושי נותר כשהיה: לגלות נתונים חדשים לניתוח, ולהגות מושגים חדשים שייבחנו." — אסימוב, "אנוכי הרובוט", 1950</p>
+
+  <div class="mz-grid">
+    <div class="mz-f"><label>שם מלא <span class="req">*</span></label><input id="f_fullName"></div>
+    <div class="mz-f"><label>מפקח מקצועי <span class="req">*</span></label><input id="f_supervisor"></div>
+  </div>
+  <div class="mz-grid">
+    <div class="mz-f"><label>תא פיקוח <span class="req">*</span></label><input id="f_unit"></div>
+    <div class="mz-f"><label>שם המקצוע / המגמה <span class="req">*</span> <span class="hint">(פותח תיקייה)</span></label><input id="f_profession"></div>
+  </div>
+
+  <div class="mz-sec">
+    <div class="mz-sec-h"><svg viewBox="0 0 24 24" width="22" height="22" fill="#2B49A6" aria-hidden="true"><circle cx="12" cy="6" r="4"/><rect x="6" y="11" width="12" height="9" rx="3"/></svg> גוף המכונה — הליבה</div>
+    <div class="mz-sec-d">מי אני, מהו המקצוע ומה ההבטחה לבוגר</div>
+    <div class="mz-f"><label>הליבה שלי כמפקח התחום (כללי) <span class="req">*</span><br><span class="hint">מי אני? במה אני מאמין? מה הדגל המקצועי-חינוכי שלי?</span></label><textarea id="f_coreField"></textarea></div>
+    <div class="mz-f"><label>הליבה שלי במקצוע הספציפי (אישי)<br><span class="hint">מה ייחודי בראייה שלי דווקא למקצוע הזה?</span></label><textarea id="f_coreProfession"></textarea></div>
+    <div class="mz-f"><label>אודות המקצוע <span class="req">*</span><br><span class="hint">מה הוא בפועל? איפה עובדים, מול מי, באיזה מגזר?</span></label><textarea id="f_about"></textarea></div>
+    <div class="mz-f"><label>איך ייראה המקצוע בעוד 10 שנים? <span class="req">*</span><br><span class="hint">מנועי השינוי — טכנולוגיים, כלכליים, חברתיים</span></label><textarea id="f_tenYears"></textarea></div>
+    <div class="mz-f"><label>לשם מה בעולם? <span class="req">*</span><br><span class="hint">מה הבוגר יוכל ליצור או לשנות בזכות השליטה?</span></label><textarea id="f_purpose"></textarea></div>
+    <div class="mz-f"><label>ההבטחה המקצועית — בסוף י"ב <span class="req">*</span><br><span class="hint">אילו משימות אמיתיות יבצע עצמאית? כולל: ידע קריטי · מיומנויות (טכני+אנושי) · עמדות · אחריות ואוטונומיה</span></label><textarea id="f_promise" style="min-height:110px"></textarea></div>
+  </div>
+
+  <div class="mz-sec">
+    <div class="mz-sec-h"><svg viewBox="0 0 24 24" width="22" height="22" fill="#2B49A6" aria-hidden="true"><path d="M9 3a4 4 0 00-4 4 3.5 3.5 0 00-1 5 3.5 3.5 0 002 6 3 3 0 003 0V3zm6 0a4 4 0 014 4 3.5 3.5 0 011 5 3.5 3.5 0 01-2 6 3 3 0 01-3 0V3z"/></svg> המוח — בסיס הידע</div>
+    <div class="mz-sec-d">מה המכונה צריכה לדעת כדי לבנות את התוכנית</div>
+    <div class="mz-f"><label>מה אני יודע? בסיס הידע שלי <span class="req">*</span><br><span class="hint">מסמכים, תקנים, נהלים, ספרות, מקורות השראה — שמות וקישורים</span></label><textarea id="f_knowledge"></textarea></div>
+    <div class="mz-f"><label>אבני הדרך (מודולות) שאני מדמיין <span class="req">*</span><br><span class="hint">רשימה גסה מהבסיס לשיא — המכונה תבנה לפורמט המלא</span></label><textarea id="f_modules"></textarea></div>
+    <div class="mz-f"><label>מבט בינלאומי<br><span class="hint">הכשרות דומות בעולם ששווה ללמוד מהן</span></label><textarea id="f_international"></textarea></div>
+  </div>
+
+  <div class="mz-sec">
+    <div class="mz-sec-h"><svg viewBox="0 0 24 24" width="22" height="22" fill="#2B49A6" aria-hidden="true"><path d="M7 11V5a1.5 1.5 0 013 0v5m0 0V4a1.5 1.5 0 013 0v6m0 0V5a1.5 1.5 0 013 0v6m0 0V7a1.5 1.5 0 013 0v7a6 6 0 01-6 6h-2a6 6 0 01-5.5-3.6L4 16a1.6 1.6 0 012.6-1.8L8 16"/></svg> ידיים — הכלים שלרשותי</div>
+    <div class="mz-sec-d">הסוכנים והכלים שהייתי מגייס בחלום</div>
+    <div class="mz-f"><label>אם יכולתי לגייס את כל מי ומה שאני רוצה — מה זה היה? <span class="req">*</span><br><span class="hint">אילו סוכנים / מומחים / כלים, ומה כל אחד עושה עבורי</span></label><textarea id="f_dreamTeam" style="min-height:90px"></textarea></div>
+    <div class="mz-f"><label>צירי קריירה והמשך<br><span class="hint">לאן בוגר מתקדם — כניסה, התמחות, ניהול, יזמות, אקדמיה</span></label><textarea id="f_careers"></textarea></div>
+  </div>
+
+  <div class="mz-sec">
+    <div class="mz-sec-h"><svg viewBox="0 0 24 24" width="22" height="22" fill="#2B49A6" aria-hidden="true"><path d="M14 3v5h5M7 3h8l5 5v11a1 1 0 01-1 1H7a1 1 0 01-1-1V4a1 1 0 011-1z"/></svg> חומרים קיימים</div>
+    <div class="mz-sec-d">צרף מה שכבר נעשה במקצוע — המכונה תקרא ותבנה על בסיסו (לא תמציא)</div>
+    <div class="mz-f">
+      <label>תוכנית לימודים · אישור הפעלה · אישור הפעלה מורחב, ועוד <span class="hint">(אופציונלי, אפשר כמה קבצים)</span></label>
+      <div class="mz-drop">גרור לכאן או בחר קבצים — PDF / Word / טקסט<br><input type="file" id="f_files" multiple accept=".pdf,.doc,.docx,.txt,.md,.rtf,.odt"></div>
+    </div>
+  </div>
+
+  <div class="mz-sec">
+    <div class="mz-f"><label>אילוצים / דגשים מיוחדים למכונה</label><textarea id="f_constraints" style="min-height:50px"></textarea></div>
+  </div>
+
+  <button type="button" class="mz-btn" id="mzSubmit">הפעל את המכונה ▸</button>
+</form>
+<script>
+(function(){
+  var ENDPOINT="https://lmbutlwxrlmyllbngfro.supabase.co/functions/v1/machine-intake";
+  var required=['fullName','supervisor','unit','profession','coreField','about','tenYears','purpose','promise','knowledge','modules','dreamTeam'];
+  var allKeys=['fullName','supervisor','unit','profession','coreField','coreProfession','about','tenYears','purpose','promise','knowledge','modules','international','dreamTeam','careers','constraints'];
+  var btn=document.getElementById('mzSubmit');
+  btn.addEventListener('click',function(){
+    var missing=false;
+    required.forEach(function(k){var el=document.getElementById('f_'+k);if(!(el.value||'').trim()){el.style.borderColor='#c0392b';missing=true;}else{el.style.borderColor='#b9d3cb';}});
+    if(missing){alert('יש למלא את כל שדות החובה (המסומנים *)');return;}
+    var profession=document.getElementById('f_profession').value.trim();
+    btn.disabled=true;btn.textContent='שולח… (העלאת קבצים עשויה לקחת רגע)';
+    var fd=new FormData();
+    allKeys.forEach(function(k){fd.append(k,document.getElementById('f_'+k).value||'');});
+    var fi=document.getElementById('f_files');
+    for(var i=0;i<fi.files.length;i++){fd.append('files',fi.files[i]);}
+    fetch(ENDPOINT,{method:'POST',body:fd}).then(function(r){return r.json();}).then(function(res){
+      if(res&&res.ok){document.getElementById('mzCard').innerHTML='<div class="mz-ok"><svg viewBox="0 0 24 24" fill="none" stroke="#2B49A6" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg><h2>המכונה קיבלה את האפיון</h2><p>המקצוע "'+profession+'" נקלט. הטיוטה תיווצר בתיקיית הדרייב בקרוב.</p></div>';}
+      else{btn.disabled=false;btn.textContent='הפעל את המכונה ▸';alert('שגיאה: '+((res&&res.error)||'לא ידועה'));}
+    }).catch(function(e){btn.disabled=false;btn.textContent='הפעל את המכונה ▸';alert('שגיאת רשת: '+e);});
+  });
+})();
+</script>
+</body>
+</html>
